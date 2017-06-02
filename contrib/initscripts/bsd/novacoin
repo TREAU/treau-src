@@ -1,0 +1,68 @@
+#!/bin/sh
+
+# PROVIDE: TREAU
+# REQUIRE: LOGIN
+# KEYWORD: shutdown
+
+#
+# Add the following lines to /etc/rc.conf.local or /etc/rc.conf
+# to enable this service:
+#
+# TREAU_enable (bool): Set to NO by default. Set this variable to YES if you want to enable TREAU service.
+# TREAU_config (path): Set to /usr/local/etc/TREAU.conf by default.
+# TREAU_user:  The user account TREAU daemon runs as. It uses 'root' user by default.
+# TREAU_group: The group account TREAU daemon runs as. It uses 'wheel' group by default.
+# TREAU_datadir (str): Default to "/var/db/TREAU". Base data directory.
+
+. /etc/rc.subr
+
+name=TREAU
+rcvar=TREAU_enable
+
+: ${TREAU_enable:=NO}
+: ${TREAU_config=/usr/local/etc/TREAU.conf}
+: ${TREAU_datadir=/var/db/TREAU}
+: ${TREAU_user="root"}
+: ${TREAU_group="wheel"}
+
+required_files=${TREAU_config}
+command=/usr/local/bin/TREAUd
+TREAU_chdir=${TREAU_datadir}
+pidfile="${TREAU_datadir}/TREAUd.pid"
+stop_cmd=TREAU_stop
+command_args="-conf=${TREAU_config} -datadir=${TREAU_datadir} -daemon -pid=${pidfile}"
+start_precmd="${name}_prestart"
+
+TREAU_create_datadir()
+{
+	echo "Creating data directory"
+	eval mkdir -p ${TREAU_datadir}
+	[ $? -eq 0 ] && chown -R ${TREAU_user}:${TREAU_group} ${TREAU_datadir}
+}
+
+TREAU_prestart()
+{
+	if [ ! -d "${TREAU_datadir}/." ]; then
+		TREAU_create_datadir || return 1
+	fi
+}
+
+TREAU_requirepidfile()
+{
+	if [ ! "0`check_pidfile ${pidfile} ${command}`" -gt 1 ]; then
+		echo "${name} not running? (check $pidfile)."
+		exit 1
+	fi
+}
+
+TREAU_stop()
+{
+    TREAU_requirepidfile
+
+	echo "Stopping ${name}."
+	eval ${command} -conf=${TREAU_config} -datadir=${TREAU_datadir} stop
+	wait_for_pids ${rc_pid}
+}
+
+load_rc_config $name
+run_rc_command "$1"

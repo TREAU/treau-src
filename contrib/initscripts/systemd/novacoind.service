@@ -1,0 +1,11 @@
+[Unit]
+Description=TREAU daemon serivce
+After=network.target
+
+[Service]
+Type=simple
+User=TREAU
+ExecStart=/opt/TREAU/TREAUd
+
+[Install]
+WantedBy=multi-user.target

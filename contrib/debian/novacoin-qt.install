@@ -1,0 +1,5 @@
+TREAU-qt usr/bin
+share/pixmaps/TREAU32.xpm usr/share/pixmaps
+share/pixmaps/TREAU80.xpm usr/share/pixmaps
+debian/TREAU-qt.desktop usr/share/applications
+debian/TREAU-qt.protocol usr/share/kde4/services/

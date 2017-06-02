@@ -1,0 +1,11 @@
+[Protocol]
+exec=TREAU-qt '%u'
+protocol=TREAU
+input=none
+output=none
+helper=true
+listing=
+reading=false
+writing=false
+makedir=false
+deleting=false

@@ -1,0 +1,2 @@
+debian/bin/TREAUd usr/bin
+src/TREAUd usr/lib/TREAU

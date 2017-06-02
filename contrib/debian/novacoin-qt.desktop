@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=TREAU
+Comment=TREAU P2P Cryptocurrency
+Comment[ru]=TREAU, P2P криптовалюта
+Comment[fr]=TREAU, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=TREAU, eşten eşe kriptografik sanal para birimi
+Exec=/usr/bin/TREAU-qt
+Terminal=false
+Type=Application
+Icon=/usr/share/pixmaps/TREAU80.xpm
+MimeType=x-scheme-handler/TREAU;
+Categories=Office;
